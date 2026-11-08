@@ -13,6 +13,16 @@ import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import Chart from "./Chart";
 import Price from "./Price";
 
+const BackButton = styled.div`
+    color: ${(props) => props.theme.accentColor};
+    margin-bottom: 10px;
+    a {
+        display: flex;
+        align-items: center;
+        padding: 20px;
+    }
+`;
+
 const Title = styled.h1`
     font-size: 48px;
     color: ${(props) => props.theme.accentColor};
@@ -107,7 +117,7 @@ interface InfoData {
   first_data_at: string;
   last_data_at: string;
 }
-interface PriceData {
+export interface PriceData {
   id: string;
   name: string;
   symbol: string;
@@ -165,6 +175,9 @@ function Coin() {
                     {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
                 </title>
             </Helmet>
+            <BackButton>
+                <Link to="/">&larr;</Link>
+            </BackButton>
             <Header>
                 <Title>
                     {state?.name ? state.name : loading ? "Loading..." : infoData?.name}
@@ -211,7 +224,7 @@ function Coin() {
 
                     <Switch>
                         <Route path={`/:coinId/price`}>
-                            <Price />
+                            <Price tickerData={tickerData} />
                         </Route>
                         <Route path={`/:coinId/chart`}>
                             <Chart coinId={coinId} />
