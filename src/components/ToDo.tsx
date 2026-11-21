@@ -1,6 +1,13 @@
 import React from "react";
 import { useSetRecoilState } from "recoil";
+import styled from "styled-components";
 import { Categories, IToDo, toDoState } from "../atoms";
+
+const Button = styled.button`
+    border: none;
+    background: transparent;
+    color: ${(props) => props.theme.textColor};
+`;
 
 function ToDo({ text, category, id }: IToDo) {
     const setToDos = useSetRecoilState(toDoState);
@@ -18,24 +25,28 @@ function ToDo({ text, category, id }: IToDo) {
             ];
         });
     };
+    const onDelete = () => {
+        setToDos((oldToDos) => oldToDos.filter((toDo) => toDo.id !== id));
+    };
     return (
         <li>
             <span>{text}</span>
             {category !== Categories.DOING && (
-                <button name={Categories.DOING} onClick={onClick}>
+                <Button name={Categories.DOING} onClick={onClick}>
                     Doing
-                </button>
+                </Button>
             )}
             {category !== Categories.TO_DO && (
-                <button name={Categories.TO_DO} onClick={onClick}>
+                <Button name={Categories.TO_DO} onClick={onClick}>
                     To Do
-                </button>
+                </Button>
             )}
             {category !== Categories.DONE && (
-                <button name={Categories.DONE} onClick={onClick}>
+                <Button name={Categories.DONE} onClick={onClick}>
                     Done
-                </button>
+                </Button>
             )}
+            <Button onClick={onDelete}>❌</Button>
         </li>
     );
 }
